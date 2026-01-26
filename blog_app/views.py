@@ -46,7 +46,7 @@ def home(request):
     else:
         profile= None
     context = {'posts':posts, 'converted_list':converted_list,'topics':topics,'page_obj':page_obj,'most_views':most_views, 'profile':profile}
-    return render(request, 'blog_app\home.html', context )
+    return render(request, 'blog_app/home.html', context )
 
 def register(request):
     form=registationForm()
@@ -80,7 +80,7 @@ def login(request):
             error = "Username and password not matched"
             
     context = {'form':form,'error': error, 'user' : user}
-    return render (request,'blog_app\login.html',context)
+    return render (request,'blog_app/login.html',context)
 
 def logOutPost(request,pk):
     auth_logout(request)
@@ -136,7 +136,7 @@ def detailContent(request,pk):
     topics = Post.topicsCount()
     most_views = Post.objects.all().order_by('-views')[0:5]
     context = {'post':post,'recent_post':recent_post,'total_likes':total_likes,'user_like_post': user_like_post, 'comment_form':comment_form,'comments':comments, 'converted_list':converted_list, 'topics':topics, 'most_views':most_views, 'profile':profile}
-    return render(request,'blog_app\detail_content.html',context)
+    return render(request,'blog_app/detail_content.html',context)
 
 def likePost(request,pk):
     post = get_object_or_404(Post,pk=pk)
@@ -206,7 +206,7 @@ def searchPost(request):
     page_obj = page.page(page_numb)
     most_views = Post.objects.all().order_by('-views')[0:5]
     context = {'search_results':search_results,'search':search1,'converted_list':converted_list,'topics':topics,'page_obj':page_obj,'most_views':most_views,'profile':profile}
-    return render(request, 'blog_app\search_result.html', context)
+    return render(request, 'blog_app/search_result.html', context)
 
 def archivePost(request, month, year):
     monthfull = calendar.month_name[int(month)]
@@ -298,7 +298,7 @@ def profileDetail(request,user):
     topics = Post.topicsCount()
     most_views = Post.objects.all().order_by('-views')[0:5]
     context = {'recent_post':recent_post,'converted_list':converted_list, 'topics':topics, 'most_views':most_views, 'profile':profile,'current_user':current_user}
-    return render(request, 'blog_app\profile_detail.html', context)
+    return render(request, 'blog_app/profile_detail.html', context)
 
 def profileUpdate(request,user):
     if request.user.is_authenticated:
@@ -337,7 +337,7 @@ def profileUpdate(request,user):
             messages.info(request,'Your profile has been updated secessfully.') 
     
     context = {'recent_post':recent_post,'converted_list':converted_list, 'topics':topics, 'most_views':most_views, 'profile':profile,'current_user':current_user,'form1':form1,'form2':form2}
-    return render(request, 'blog_app\profile_update.html', context)
+    return render(request, 'blog_app/profile_update.html', context)
 
 def changePassword(request,user):
     posts = Post.objects.all()
@@ -374,7 +374,7 @@ def changePassword(request,user):
         profile= None
     
     context = {'form':form, 'converted_list':converted_list,'topics':topics,'page_obj':page_obj,'most_views':most_views, 'profile':profile}
-    return render(request,'blog_app\change_password.html', context)
+    return render(request,'blog_app/change_password.html', context)
 
 def membership(request):
     posts = Post.objects.all()
@@ -406,4 +406,4 @@ def membership(request):
         profile= None
     context = {'posts':posts, 'converted_list':converted_list,'topics':topics,'page_obj':page_obj,'most_views':most_views, 'profile':profile}
     
-    return render(request,'blog_app\membership.html', context)
+    return render(request,'blog_app/membership.html', context)
