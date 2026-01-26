@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link href='https://cdn.boxicons.com/3.0.3/fonts/basic/boxicons.min.css' rel='stylesheet'>
+    <title>Login</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Login</h1>
+        <form method="post" autocomplete="off">
+        {% csrf_token %}
+        <i class='bxr  bx-user'    ></i>{{ form.username}}
+        <i class='bxr  bx-user'    ></i>{{ form.password}}<i class='bxr  bx-lock'></i> 
+        <button type="submit">Login</button>
+        <p style='color: white;'> Do not have an account? <a style="color: white;" href="{% url 'register' %}"> Rigister</a></p>
+        <p>{{ error }}</p>
+        </form>
+    </div>    
+</body>
+</html>

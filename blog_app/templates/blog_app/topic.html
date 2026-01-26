@@ -1,0 +1,410 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link href='https://cdn.boxicons.com/3.0.3/fonts/basic/boxicons.min.css' rel='stylesheet'>
+    <title>Home</title>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+            font-family: "Open Sans", sans-serif;
+            font-optical-sizing: auto;       
+        }
+        
+        .navbar ul{
+            width: 100%;
+            background-color:  rgba(39, 39, 49, 0.973);
+            list-style-type: none;
+            overflow: hidden;                
+        }
+
+        .navbar a{
+            color: rgb(255, 255, 255);
+            text-decoration: none;
+            background-color: rgba(39, 39, 49, 0.973);
+            display: block;
+            text-align: center;
+            padding: 15px;
+            margin: 0px;
+            transition: 0.3s ease;
+        }
+
+        .navbar a:hover{
+            background-color: #A675A1;
+        }
+        
+        .navbar li{
+            float:left;    
+        }
+
+        .navbar{               
+        align-content: center;
+        position: relative;
+        margin-top: 0px;
+            
+        }
+        
+        .navbar p{
+            color: white;
+            text-align: right;
+            margin: 15px;
+            display: inline-flex;
+            
+            
+        }
+        
+        #logout {
+            all: revert;
+            color: rgb(255, 255, 255);
+        }
+        
+        .header {
+            position: fixed;
+            width: 100%;
+            z-index: 2   
+        }
+        .search a:hover{
+            background-color: aqua;
+            width: 100px;
+       
+        }
+
+        .post {
+            animation: fade-in;
+            animation-timeline: view();
+            animation-range-start: 100px;
+            animation-range-start: 600px;
+           
+        }
+        
+        .slice {
+            width: 1200px; 
+            height: 300px; 
+            display: flex; 
+            gap: 30px; 
+            align-items: center;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scroll-snap-type: x mandatory;
+            anchor-name: --slice;
+            scroll-marker-group: after;
+        
+        }
+            
+        .slice::scroll-marker-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            position: absolute;
+            transform: translateY(80px);
+        }
+        .card::scroll-marker {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background-color: aliceblue;
+            border-radius: 50%;
+            transition: .3s ease;
+        }
+        .card::scroll-marker:target-current {
+            background-color: #A675A1;
+            scale: 1.5;
+        }
+        .slice::-webkit-scrollbar {
+            display: none;
+                   
+        }
+
+        .slice::scroll-button(right){
+            all: unset;
+            content: ">";
+            font-size: 50px;
+            color: white;
+            position: fixed;
+            cursor: pointer;
+            position-anchor: --slice;
+            position-area: right center;
+            transform: translateX(-50px);
+            transition: .3s ease;
+           
+
+        }
+        .slice::scroll-button(left){
+            all: unset;
+            content: "<";
+            font-size: 50px;
+            color: white;
+            position: fixed;
+            cursor: pointer;
+            position-anchor: --slice;
+            position-area: left center;
+            transform: translateX(50px);
+            transition: .3s ease;
+        }
+        .slice.slice::scroll-button(left):hover{
+            transform: translateX(45px);
+        }
+        .slice.slice::scroll-button(right):hover{
+            transform: translateX(-45px);
+        }
+
+        .slice::scroll-button(right):disabled{
+            opacity: 0.5;
+            cursor: auto;
+        }
+        
+        .slice::scroll-button(left):disabled{
+            opacity: 0.5;
+            cursor: auto;
+        }
+        
+        .card {
+            display: flex;
+            scroll-snap-align:start;
+            flex: 0 0 1200px;
+            height: 250px;
+         
+        }
+        .sidebar{
+            position: fixed;
+            width: 250px; 
+            height: 370px; 
+            background-color: rgba(39, 39, 49, 0.973);
+            right: -300px; 
+            top:360px; 
+            z-index: 999; 
+            padding: 20px;
+            transition: 0.3s ease-in;
+        }
+        
+        #sidebar-active-button{
+            position: fixed;
+            transform: translateY(-40px);
+            cursor: pointer;
+            right: 0px;
+            transition: 0.3s ease;
+        }    
+        
+        .sidebar ul {
+            list-style-type: none;
+        }        
+        
+        .sidebar li {
+            width: 100%;
+            
+            
+        }
+
+        .sidebar a {
+            text-decoration: none;
+            color: rgb(255, 255, 255);
+            text-decoration: none;
+            background-color:rgba(39, 39, 49, 0.973);
+            display: block;
+            padding: 10px;
+            margin: 0px;
+            transition: 0.3s ease;
+        }
+        .sidebar a:hover{
+            background-color:#A675A1;
+            
+        }
+        #sidebar-active:checked ~ .sidebar {
+            
+            right: 0px;
+        }
+
+        #sidebar-active:checked ~ #sidebar-active-button{
+            transform: translateY(-48px) rotate(-90deg);
+            cursor: pointer;
+            
+        }
+
+        #sidebar-active-button svg:hover {
+            fill: #A675A1;
+        }
+        
+   .container-dropdown{
+           pointer-events: none;
+           opacity: 0;
+           transform: translateY(15px); 
+           transition: 0.3s ease;      
+        }
+        
+        #dropdown:hover .container-dropdown{
+            pointer-events:auto;
+            opacity: 1;
+            transform: translateY(0px);
+                    
+        }
+            
+            
+        
+
+                        
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="" style="width: 100%; height: 300px; background-color: rgb(255, 255, 255); display: flex; align-items: center; justify-content: center;">
+            <div class="slice">    
+                    {% for post in most_views %}
+                    <div class="card">    
+                        <a href="{% url 'detail-content' pk=post.pk %}" style="display: flex; width: 100%; text-decoration: none;"><img src="{{post.image1.url}}" style="width:100%; height:auto; object-fit: cover;">
+                        <h2 style="background-color: #A675A1; width: 30%; padding: 20px; text-transform: capitalize; color: white; ">{{post.title}}</h2></a>             
+                    </div>
+                    {% endfor %}
+                    
+            </div>
+                
+            
+        </div>
+        <nav class="navbar">
+            <ul>
+                <li><a href="{% url 'home'%}">Home</a> </li>
+                <li id="dropdown"><a href="">Topics</a> 
+                    
+                    <ul class="container-dropdown" style="display: flex; position: absolute; flex-direction: column; width: 250px;">                        
+                        <div style="background-color: white; height: 5px;"></div>
+                        {% for x in topics %}
+                        <li><a style="text-align: left;" href="{% url 'topic' topic=x %}">{{x}}</a></li>
+                        {% endfor %}
+                    </ul>
+                                
+                </li>
+                <li><a href="{% url 'register'%}">Registration</a> </li>
+                <li><a href="">Contact Us</a> </li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'logouthome'%}">Logout</a> </li>
+                {% else %}
+                <li><a href="{% url 'login' %}">Login</a> </li>
+                {% endif %}
+            </ul>    
+            
+        
+        <div class="search" style="position: absolute; display: flex; gap: 10px; transform: translateY(-35px); right: 0px;">
+            <p style="display:block; color: white; transform: translateY(-18px); text-transform: uppercase;">WELCOME, {{ user }} <small>({{profile.membership}})</small></p>
+            <form action="{% url 'search-result' %}" method="GET">
+                <input type="text" name="search" placeholder="Search" required value="{{ request.GET.search }}" style="padding: 10px; transform: translateY(-17px);">       
+                <button onclick="" style=" transform: translateX(-43px) translateY(-8px); background-color: rgba(39, 39, 49, 0.973); padding-top: 5px;padding-left: 5px; height: 35px; width: 35px; text-decoration: none;"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 50 50" style="fill:white">
+                <path d="M 21 3 C 11.601563 3 4 10.601563 4 20 C 4 29.398438 11.601563 37 21 37 C 24.355469 37 27.460938 36.015625 30.09375 34.34375 L 42.375 46.625 L 46.625 42.375 L 34.5 30.28125 C 36.679688 27.421875 38 23.878906 38 20 C 38 10.601563 30.398438 3 21 3 Z M 21 7 C 28.199219 7 34 12.800781 34 20 C 34 27.199219 28.199219 33 21 33 C 13.800781 33 8 27.199219 8 20 C 8 12.800781 13.800781 7 21 7 Z"></path>
+                </svg></button>
+            </form>
+        </div>
+        </nav>
+        {% if user.is_authenticated %}
+        <nav>
+            <input type="checkbox" id="sidebar-active" style="display: none;">
+            <label for="sidebar-active" id="sidebar-active-button"><svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#e3e3e3"><path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z"/></svg></label>
+            <div class="sidebar"> 
+                {% if profile.image_profile%}
+                <img src="{{profile.image_profile.url}}" style="width: 100px; height: 100px; border-radius: 50%; display: block; margin-left: auto; margin-right: auto;  object-fit: cover;">
+                {% else %}
+                <img src="{% static 'img/unknow_profile.jpg' %}" style="width: 100px; height: 100px; border-radius: 50%; display: block; margin-left: auto; margin-right: auto;">
+                
+                {% endif %}
+                <p style="color: white; display: block; text-align: center; margin: 10px; text-transform: capitalize;">{{profile.short_message}}</p>
+                <hr>
+                <h2 style="color: white; display: block; text-align: center; margin: 10px; text-transform: uppercase;"> {{profile.user}} </h2>
+                <hr>
+                    <ul>
+                        <a href="{% url 'profile_detail' user=user %}"><li>VIEW PROFILE</li></a>
+                        <a href="{% url 'change_password' user=user %}"><li>CHANG PASSWORD</li></a>
+                        <a href="{% url 'profile_update' user=user %}"><li>SETTING</li></a>
+                    </ul>     
+            </div>
+        </nav>
+        {% else %}
+        {% endif %}
+    </div>
+    
+    
+
+
+    </div>
+        
+    <div class="content" style="position: relative; top:350px; display: flex;">
+            
+            <article style="width: 75%; margin-left: 200px;">
+                {% for post in page_obj %}
+                <div class="post" style="width: 1000px; height: 320px; position: relative; border: 1px solid  rgba(39, 39, 49, 0.973);margin: 40px; ">
+                    <img src="{{post.image1.url}}" style="width:30%; height:318px; float: left; padding-right: 20px;object-fit: cover;">
+                    {% if post.topic_status == 'vip' %}
+                    <h3 style="position: absolute; padding: 20px; color: goldenrod; background-color: #A675A1;" >VIP</h3>
+                    {% else %}
+                    
+                    {% endif %}
+                    <h2 style="padding-top: 10px; color:  rgba(39, 39, 49, 0.973) ;">{{ post.title }}</h2>
+                    <br>
+                    <p style="height: 160px;margin-right: 10px;">{{ post.content|linebreaksbr| truncatechars:300 }}</p>
+                    <hr style="margin-right: 10px;">
+                    <small style="color:rgba(112, 34, 122, 0.973);">Published on: {{ post.created_on|date:"F d, Y" }}</small><br>
+                    <small style="color:rgba(112, 34, 122, 0.973);">Written by: {{ post.author }}</small>
+                    
+                    <a href="{% url 'detail-content' pk=post.pk %}" style="text-decoration: none; position: absolute; bottom: 0; right: 0; padding: 10px; color: rgba(112, 34, 122, 0.973) ;">Read More </a>
+                </div>
+                    {% endfor %}
+                <div class="page" style="text-align: center; padding-bottom: 10px; ">
+                    {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}" style="display: inline-block; transform: translateY(5px);"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z"/></svg></a>
+                    {% endif %}
+
+                    <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                    </span>
+
+                    {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}" style="display: inline-block; transform: translateY(5px);"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z"/></svg></a>
+                    {% endif %}
+                    
+                </div> 
+            </article>
+            <aside style="width: 25%; padding: 20px; float: right; height: auto; min-height: 550px; margin-top: 20px;">
+                <div class="topics"> 
+                    <h3> Topics </h3>
+                    <hr>
+                    <br>
+                    <ol class="list-unstyled" style="list-style-type: none;">
+                    {% for x in topics %}
+                    <li>
+                    <!-- You might need a specific URL pattern to link to individual month archives -->
+                    <a href="{% url 'topic' topic=x %}" style="text-decoration: none;">{{ x}} - {{ x.post_count}} posts</a>
+                    </li>
+                    {% endfor %}
+                    </ol>
+                </div>
+                <br>
+                <div class="archives"> 
+                    <h3> Archives </h3>
+                    <hr>
+                    <br>
+                    <ol class="list-unstyled" style="list-style-type: none;">
+                    {% for month in converted_list %}
+                    <li>
+                    <!-- You might need a specific URL pattern to link to individual month archives -->
+                    <a href="{% url 'archive' year=month.year month=month.month %}" style="text-decoration: none;">{{ month.year }} {{ month.month_name}} - {{ month.count }} posts</a>
+                    </li>
+                    {% endfor %}
+                    </ol>
+                    
+                </div>    
+            </aside>                     
+        </div>     
+</body>
+
+<footer style="background-color:  rgba(39, 39, 49, 0.973); color: white; height: 100px; width: 100%; position: relative; margin-top: 400px; text-align: center; justify-items: center; ">
+    <br>
+    <p>Blog Post</p>
+    <p>&copy; 2025 Luna Fashion Store. All Rights Reserved.</p>
+</footer>
+
+
+</html>
