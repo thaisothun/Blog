@@ -31,7 +31,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://*.cloudfront.net',
     ]
 
-ALLOWED_HOSTS = ['d3jjawl67o2t69.cloudfront.net']
+ALLOWED_HOSTS = ['d3jjawl67o2t69.cloudfront.net','*']
 
 # Application definition
 
