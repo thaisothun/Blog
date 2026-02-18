@@ -31,7 +31,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://*.cloudfront.net',
     ]
 
-ALLOWED_HOSTS = ['d3jjawl67o2t69.cloudfront.net']
+ALLOWED_HOSTS = ['d3jjawl67o2t69.cloudfront.net','*']
 
 # Application definition
 
@@ -160,4 +160,3 @@ AWS_SECRET_ACCESS_KEY = KEY['SECRET_ACCESS_KEY']
 AWS_STORAGE_BUCKET_NAME = KEY['STORAGE_BUCKET_NAME']
 AWS_S3_REGION_NAME = KEY['S3_REGION_NAME']
 
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
